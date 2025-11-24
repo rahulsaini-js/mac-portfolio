@@ -29,10 +29,6 @@ const navLinks = [
       id: 3,
       img: "/icons/user.svg",
     },
-    {
-      id: 4,
-      img: "/icons/mode.svg",
-    },
   ];
   
   const dockApps = [
