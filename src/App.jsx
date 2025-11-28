@@ -5,6 +5,7 @@ import Draggable from "gsap/Draggable";
 import { Terminal } from "#windows";
 import { Safari } from "#windows";
 import { Resume } from "#windows";
+import { Finder } from "#windows";
 gsap.registerPlugin(Draggable);
 
 const App = () => {
@@ -17,6 +18,7 @@ const App = () => {
       <Terminal />
       <Safari />
       <Resume />
+      <Finder />
     </main>
   );
 };

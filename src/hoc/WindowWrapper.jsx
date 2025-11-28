@@ -1,14 +1,17 @@
-import React, { useLayoutEffect } from "react";
+import React, { useLayoutEffect, memo } from "react";
 import useWindowStore from "#store/window.js";
 import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import Draggable from "gsap/Draggable";
+import { useShallow } from "zustand/react/shallow";
 
 const WindowWrapper = (Component, windowKey) => {
   const Wrapped = (props) => {
-    const { focusWindow, windows } = useWindowStore();
-    const { zIndex, isOpen } = windows[windowKey] ?? {};
+    const { zIndex, isOpen } = useWindowStore(
+      useShallow((state) => state.windows[windowKey] ?? {})
+    );
+    const focusWindow = useWindowStore((state) => state.focusWindow);
     const ref = useRef(null);
 
     useGSAP(() => {
@@ -42,8 +45,10 @@ const WindowWrapper = (Component, windowKey) => {
       const el = ref.current;
       if (!el) return;
 
-      const [instance]=Draggable.create(el, { onPress: () => focusWindow(windowKey) });
-      return ()=>instance.kill();
+      const [instance] = Draggable.create(el, {
+        onPress: () => focusWindow(windowKey),
+      });
+      return () => instance.kill();
     }, []);
 
     useLayoutEffect(() => {
@@ -58,10 +63,9 @@ const WindowWrapper = (Component, windowKey) => {
       </section>
     );
   };
-  Wrapped.displayName = `WindowWrapper(${
-    Component.displayName || Component.name || "Component"
-  })`;
-  return Wrapped;
+  Wrapped.displayName = `WindowWrapper(${Component.displayName || Component.name || "Component"
+    })`;
+  return memo(Wrapped);
 };
 
 export default WindowWrapper;

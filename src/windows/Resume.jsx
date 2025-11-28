@@ -20,9 +20,60 @@ const Resume = () => {
           <Download className="icon" />
         </a>
       </div>
-     <Document file="files/resume.pdf">
-      <Page pageNumber={1} renderAnnotationLayer renderTextLayer />
-     </Document>
+     {/*
+       PDF Viewer with page arrows to navigate pages (2 pages total)
+     */}
+     {(() => {
+        const [pageNumber, setPageNumber] = React.useState(1);
+        const totalPages = 2;
+
+        return (
+          <div style={{ textAlign: "center", width: "100%" }}>
+            <div style={{ display: "flex", justifyContent: "center", marginBottom: 8 }}>
+              <button
+                onClick={() => setPageNumber(page => (page > 1 ? page - 1 : page))}
+                disabled={pageNumber === 1}
+                style={{
+                  cursor: pageNumber === 1 ? "not-allowed" : "pointer",
+                  opacity: pageNumber === 1 ? 0.5 : 1,
+                  marginRight: 12,
+                  fontSize: "1rem",
+                  padding: "2px 12px",
+                }}
+                aria-label="Previous page"
+                title="Previous page"
+              >
+                &#8592;
+              </button>
+              <span style={{ alignSelf: "center", fontWeight: "500" }}>
+                Page {pageNumber} of {totalPages}
+              </span>
+              <button
+                onClick={() => setPageNumber(page => (page < totalPages ? page + 1 : page))}
+                disabled={pageNumber === totalPages}
+                style={{
+                  cursor: pageNumber === totalPages ? "not-allowed" : "pointer",
+                  opacity: pageNumber === totalPages ? 0.5 : 1,
+                  marginLeft: 12,
+                  fontSize: "1rem",
+                  padding: "2px 12px",
+                }}
+                aria-label="Next page"
+                title="Next page"
+              >
+                &#8594;
+              </button>
+            </div>
+            <Document file="files/resume.pdf">
+              <Page
+                pageNumber={pageNumber}
+                renderAnnotationLayer
+                renderTextLayer
+              />
+            </Document>
+          </div>
+        );
+     })()}
     </>
   );
   return <div>Resume</div>;

@@ -1,5 +1,4 @@
-import React from "react";
-import { useRef } from "react";
+import React, { useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 const FONT_WEIGHTS = {
@@ -41,7 +40,7 @@ const setuptextHover = (container, type) => {
   let rafId = null;
   const handleMouseMove = (e) => {
     if (rafId) cancelAnimationFrame(rafId);
-    
+
     rafId = requestAnimationFrame(() => {
       const { left } = container.getBoundingClientRect();
       const mouseX = e.clientX - left;
@@ -54,7 +53,7 @@ const setuptextHover = (container, type) => {
         const { left: l, width: w } = letter.getBoundingClientRect();
         const letterCenter = l - left + w / 2;
         const distance = Math.abs(mouseX - letterCenter);
-        
+
         if (distance < closestDistance) {
           closestDistance = distance;
           closestLetter = letter;
@@ -92,22 +91,105 @@ const setuptextHover = (container, type) => {
   };
 };
 
+const setupCursorTrail = (section) => {
+  if (!section) return () => {};
+
+  const dots = section.querySelectorAll(".cursor-trail-dot");
+  if (!dots.length) return () => {};
+
+  const dotArray = Array.from(dots);
+
+  // Base styling for all dots
+  gsap.set(dotArray, {
+    xPercent: -50,
+    yPercent: -50,
+    scale: 0,
+    opacity: 0,
+    pointerEvents: "none",
+  });
+
+  const movers = dotArray.map((dot, index) => {
+    const duration = 0.25 + index * 0.04;
+    return {
+      x: gsap.quickTo(dot, "x", { duration, ease: "power3.out" }),
+      y: gsap.quickTo(dot, "y", { duration, ease: "power3.out" }),
+    };
+  });
+
+  let dotIndex = 0;
+  let rafId = null;
+
+  const handleMove = (e) => {
+    if (rafId) cancelAnimationFrame(rafId);
+
+    rafId = requestAnimationFrame(() => {
+      const rect = section.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+
+      const currentDot = dotArray[dotIndex % dotArray.length];
+      const currentMover = movers[dotIndex % dotArray.length];
+      dotIndex += 1;
+
+      currentMover.x(x);
+      currentMover.y(y);
+
+      // Pulse this dot
+      gsap.fromTo(
+        currentDot,
+        {
+          scale: 0.1,
+          opacity: 0.9,
+        },
+        {
+          scale: 0,
+          opacity: 0,
+          duration: 0.7,
+          ease: "power1.out",
+        }
+      );
+    });
+  };
+
+  section.addEventListener("mousemove", handleMove);
+
+  return () => {
+    if (rafId) cancelAnimationFrame(rafId);
+    section.removeEventListener("mousemove", handleMove);
+    gsap.killTweensOf(dotArray);
+  };
+};
+
 const Welcome = () => {
+  const sectionRef = useRef(null);
   const titleRef = useRef(null);
   const subtitleRef = useRef(null);
 
 
   useGSAP(() => {
-    const titleCleanup=setuptextHover(titleRef.current, "title");
-    const subtitleCleanup=setuptextHover(subtitleRef.current, "subtitle");
+    const titleCleanup = setuptextHover(titleRef.current, "title");
+    const subtitleCleanup = setuptextHover(subtitleRef.current, "subtitle");
+    const trailCleanup = setupCursorTrail(sectionRef.current);
+
     return () => {
       titleCleanup();
       subtitleCleanup();
+      trailCleanup();
     };
   }, []);
 
   return (
-    <section id="welcome">
+    <section id="welcome" ref={sectionRef} className="relative overflow-hidden">
+      {Array.from({ length: 14 }).map((_, i) => (
+        <div
+          key={i}
+          className="cursor-trail-dot absolute rounded-full bg-cyan-400/60 blur-xl mix-blend-screen"
+          style={{
+            width: `${10 + i * 2}px`,
+            height: `${10 + i * 2}px`,
+          }}
+        />
+      ))}
       <p ref={subtitleRef}>
         {renderText(
           "Hello, I'm Rahul Welcome to my",
