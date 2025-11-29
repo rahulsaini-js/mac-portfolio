@@ -5,12 +5,23 @@ import WindowWrapper from "#hoc/WindowWrapper.jsx";
 import { locations } from "#constants";
 import useLocationStore from "#store/location.js";
 import clsx from "clsx";
+import useWindowStore from "#store/window";
 
 const DEFAULT_LOCATION = locations.work;
 
 const Finder = () => {
   const { activeLocation, setActiveLocation } = useLocationStore();
   const currentLocation = activeLocation ?? DEFAULT_LOCATION;
+  const { openWindow } = useWindowStore();
+
+  const openItem = (item) => {
+    if (item.fileType === "pdf") return openWindow("resume");
+    if (item.kind === "folder") return setActiveLocation(item);
+    if (["fig", "url"].includes(item.fileType) && item.href)
+      return window.open(item.href, "_blank");
+
+    openWindow(`${item.fileType}${item.kind}`, item);
+  };
 
   const renderList = (name, items = []) => (
     <div>
@@ -32,29 +43,6 @@ const Finder = () => {
     </div>
   );
 
-  const renderContent = () => {
-    const children = currentLocation.children ?? [];
-
-    if (!children.length) {
-      return (
-        <div className="flex h-full w-full items-center justify-center text-xs uppercase tracking-wide text-gray-400">
-          No files available
-        </div>
-      );
-    }
-
-    return (
-      <ul className="relative h-full min-h-88 w-full">
-        {children.map((child) => (
-          <li key={child.id} className={clsx("group", child.position)}>
-            <img src={child.icon} alt={child.name} />
-            <p>{child.name}</p>
-          </li>
-        ))}
-      </ul>
-    );
-  };
-
   return (
     <>
       <div id="window-header">
@@ -67,7 +55,18 @@ const Finder = () => {
           {renderList("Favorites", Object.values(locations))}
           {renderList("Work", locations.work.children)}
         </div>
-        <div className="content">{renderContent()}</div>
+        <ul className="content">
+          {activeLocation?.children.map((item) => (
+            <li
+              key={item.id}
+              className={item.position}
+              onClick={() => openItem(item)}
+            >
+              <img src={item.icon} alt={item.name} />
+              <p>{item.name}</p>
+            </li>
+          ))}
+        </ul>
       </div>
     </>
   );
