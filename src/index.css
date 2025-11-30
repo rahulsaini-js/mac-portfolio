@@ -380,7 +380,7 @@ body {
   }
 
   #home {
-    @apply relative z-0 max-sm:hidden;
+    @apply absolute inset-0 z-0 max-sm:hidden;
 
     ul {
       li {
