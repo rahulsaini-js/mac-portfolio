@@ -11,7 +11,12 @@ body {
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
-  transition: background-image 0.3s ease-in-out;
+  transition: background-image 0.3s ease-in-out, filter 0.3s ease-in-out;
+}
+
+html.dark,
+html.dark body {
+  filter: brightness(0.3) contrast(1.1);
 }
 
 @theme {
@@ -60,11 +65,27 @@ body {
       @apply text-sm font-medium text-black;
     }
   }
+
+  main.dark nav {
+    @apply bg-gray-900/50;
+
+    p {
+      @apply text-gray-100;
+    }
+
+    time {
+      @apply text-gray-100;
+    }
+  }
 }
 
 @layer components {
   .icon {
     @apply p-1 hover:bg-gray-200 rounded hover:cursor-default;
+  }
+
+  main.dark .icon {
+    @apply hover:bg-gray-700;
   }
 
   #welcome {
@@ -101,6 +122,16 @@ body {
     }
   }
 
+  main.dark #dock {
+    .dock-container {
+      @apply bg-gray-900/30 border-gray-700/30;
+    }
+
+    .tooltip {
+      @apply !bg-blue-900 !text-blue-200;
+    }
+  }
+
   #window-controls {
     @apply flex gap-2;
 
@@ -119,6 +150,10 @@ body {
 
   #window-header {
     @apply flex items-center justify-between px-4 py-3 rounded-t-lg bg-gray-50 border-b border-gray-200 select-none text-sm text-gray-400 transition-colors duration-300;
+  }
+
+  main.dark #window-header {
+    @apply bg-gray-800 border-gray-700 text-gray-300;
   }
 
   #safari {
@@ -159,6 +194,42 @@ body {
 
           a {
             @apply text-blue-600 text-xs hover:underline flex items-center gap-3;
+          }
+        }
+      }
+    }
+  }
+
+  main.dark #safari {
+    @apply bg-gray-900;
+
+    .search {
+      @apply bg-gray-800 border-gray-700;
+
+      input {
+        @apply text-gray-100 placeholder:text-gray-500;
+      }
+    }
+
+    .blog {
+      @apply bg-gray-900;
+
+      h2 {
+        @apply text-pink-400;
+      }
+
+      .blog-post {
+        .content {
+          p {
+            @apply text-gray-400;
+          }
+
+          h3 {
+            @apply text-gray-200;
+          }
+
+          a {
+            @apply text-blue-400;
           }
         }
       }
@@ -211,6 +282,18 @@ body {
     }
   }
 
+  main.dark #terminal {
+    @apply bg-gray-900;
+
+    .techstack {
+      @apply text-gray-100;
+
+      .content {
+        @apply border-gray-700;
+      }
+    }
+  }
+
   #contact {
     @apply max-w-2xl absolute top-60 left-5/12 bg-white shadow-2xl drop-shadow-2xl rounded-xl overflow-hidden transition-colors duration-300;
 
@@ -236,6 +319,14 @@ body {
           @apply font-semibold text-sm text-white;
         }
       }
+    }
+  }
+
+  main.dark #contact {
+    @apply bg-gray-900;
+
+    h3 {
+      @apply text-gray-100;
     }
   }
 
@@ -299,6 +390,30 @@ body {
     }
   }
 
+  main.dark #photos {
+    @apply bg-gray-900;
+
+    .sidebar {
+      @apply bg-gray-800 border-gray-700;
+
+      h2 {
+        @apply text-gray-400;
+      }
+
+      ul {
+        li {
+          &:first-child {
+            @apply bg-blue-900 text-blue-300;
+          }
+
+          p {
+            @apply text-gray-200;
+          }
+        }
+      }
+    }
+  }
+
   #resume {
     @apply w-fit h-fit absolute top-16 left-7/12 bg-white shadow-2xl drop-shadow-2xl rounded-xl overflow-hidden transition-colors duration-300;
 
@@ -307,6 +422,10 @@ body {
         @apply font-bold text-sm text-center flex-1;
       }
     }
+  }
+
+  main.dark #resume {
+    @apply bg-gray-900;
   }
 
   #finder {
@@ -353,12 +472,46 @@ body {
     }
   }
 
+  main.dark #finder {
+    .sidebar {
+      @apply bg-gray-800 border-gray-700;
+
+      h3 {
+        @apply text-gray-400;
+      }
+
+      ul {
+        .active {
+          @apply bg-blue-900 text-blue-300;
+        }
+
+        .not-active {
+          @apply text-gray-300 hover:bg-gray-700;
+        }
+      }
+    }
+
+    .content {
+      @apply bg-gray-900;
+
+      li {
+        p {
+          @apply text-gray-200;
+        }
+      }
+    }
+  }
+
   #txtfile {
     @apply w-md absolute top-36 right-32 bg-white shadow-2xl drop-shadow-2xl rounded-xl overflow-hidden transition-colors duration-300;
 
     h2 {
       @apply font-bold text-sm text-center w-full;
     }
+  }
+
+  main.dark #txtfile {
+    @apply bg-gray-900;
   }
 
   #imgfile {
@@ -376,6 +529,20 @@ body {
       img {
         @apply w-full h-fit object-contain object-center;
       }
+    }
+  }
+
+  main.dark #imgfile {
+    @apply bg-gray-900;
+
+    #window-header {
+      p {
+        @apply text-gray-300;
+      }
+    }
+
+    .preview {
+      @apply bg-gray-800;
     }
   }
 
