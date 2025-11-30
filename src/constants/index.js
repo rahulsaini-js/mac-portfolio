@@ -105,8 +105,8 @@ const navLinks = [
       items: ["React.js", "Next.js", "TypeScript"],
     },
     {
-      category: "Mobile",
-      items: ["React Native", "Expo"],
+      category: "QA",
+      items: ["Cypress", "Automation"],
     },
     {
       category: "Styling",
@@ -114,11 +114,11 @@ const navLinks = [
     },
     {
       category: "Backend",
-      items: ["Node.js", "Express", "NestJS", "Hono"],
+      items: ["Node.js", "Express"],
     },
     {
       category: "Database",
-      items: ["MongoDB", "PostgreSQL"],
+      items: ["MongoDB"],
     },
     {
       category: "Dev Tools",
@@ -132,14 +132,14 @@ const navLinks = [
       text: "Github",
       icon: "/icons/github.svg",
       bg: "#f4656b",
-      link: "https://github.com/JavaScript-Mastery-Pro",
+      link: "https://github.com/rahulsaini-js",
     },
     {
       id: 2,
       text: "Platform",
       icon: "/icons/atom.svg",
       bg: "#4bcb63",
-      link: "https://jsmastery.com/",
+      link: "https://rahul-mac-portfolio.netlify.app/",
     },
     {
       id: 3,
@@ -153,7 +153,7 @@ const navLinks = [
       text: "LinkedIn",
       icon: "/icons/linkedin.svg",
       bg: "#05b6f6",
-      link: "https://www.linkedin.com/company/javascriptmastery/posts/?feedView=all",
+      link: "https://www.linkedin.com/in/rahul-saini-5253b2255/",
     },
   ];
   
@@ -225,7 +225,7 @@ const navLinks = [
       // ▶ Project 1
       {
         id: 5,
-        name: "Nike Ecommerce Website Application",
+        name: "Gym Application using React",
         icon: "/images/folder.png",
         kind: "folder",
         position: "top-10 left-5", // icon position inside Finder
@@ -278,7 +278,7 @@ const navLinks = [
       // ▶ Project 2
       {
         id: 6,
-        name: "AI Resume Analyzer",
+        name: "Portfolio UI/UX  design",
         icon: "/images/folder.png",
         kind: "folder",
         position: "top-52 right-80",
@@ -331,7 +331,7 @@ const navLinks = [
       // ▶ Project 3
       {
         id: 7,
-        name: "Food Delivery App",
+        name: "Notes manage Node app",
         icon: "/images/folder.png",
         kind: "folder",
         position: "top-10 left-80",

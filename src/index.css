@@ -380,11 +380,11 @@ body {
   }
 
   #home {
-    @apply absolute inset-0 z-0 max-sm:hidden;
+    @apply absolute inset-0 z-0 max-sm:hidden pointer-events-none;
 
     ul {
       li {
-        @apply absolute z-0 select-none flex items-center flex-col;
+        @apply absolute z-0 select-none flex items-center flex-col pointer-events-auto;
 
         img {
           @apply group-hover:bg-gray-950/10 p-1 rounded-md;
